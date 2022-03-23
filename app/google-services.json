@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "611768732465",
+    "project_id": "emergency-alert-62774",
+    "storage_bucket": "emergency-alert-62774.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611768732465:android:b60737b05b197594837e10",
+        "android_client_info": {
+          "package_name": "com.example.emergencyalert"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "611768732465-qdikgjjs512hqhmso0aq22i9inepc8g9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.emergencyalert",
+            "certificate_hash": "69ef5de46e928a25cb09adcdd5dc1d394cf707ae"
+          }
+        },
+        {
+          "client_id": "611768732465-bd53r4v7vrb7lgncqgp0r3fjli08pjqg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCI8aWz2dLM5CiCgaIg37ohxwc8zyZ_yG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "611768732465-bd53r4v7vrb7lgncqgp0r3fjli08pjqg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
