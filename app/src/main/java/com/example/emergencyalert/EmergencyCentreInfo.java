@@ -4,22 +4,24 @@ import java.io.Serializable;
 
 public class EmergencyCentreInfo implements Serializable {
 
-    String centre_pic, centreID, centreName, centreContact, centreType, publisher_id, latitude, longitude;
+    String centre_pic, Emergency_Center_Id, Emergency_Center_Name, Emergency_Center_Contact, Emergency_Center_Type, Emergency_Center_Publisher_Id, latitude, longitude;
 
     public EmergencyCentreInfo() {
         //Needed
     }
 
-    public EmergencyCentreInfo(String centre_pic, String centreID, String centreName, String centreContact, String centreType, String publisher_id, String latitude, String longitude) {
+    public EmergencyCentreInfo(String centre_pic, String emergency_Center_Id, String emergency_Center_Name, String emergency_Center_Contact, String emergency_Center_Type, String emergency_Center_Publisher_Id, String latitude, String longitude) {
         this.centre_pic = centre_pic;
-        this.centreID = centreID;
-        this.centreName = centreName;
-        this.centreContact = centreContact;
-        this.centreType = centreType;
-        this.publisher_id = publisher_id;
+        Emergency_Center_Id = emergency_Center_Id;
+        Emergency_Center_Name = emergency_Center_Name;
+        Emergency_Center_Contact = emergency_Center_Contact;
+        Emergency_Center_Type = emergency_Center_Type;
+        Emergency_Center_Publisher_Id = emergency_Center_Publisher_Id;
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
+
 
     public String getCentre_pic() {
         return centre_pic;
@@ -29,28 +31,44 @@ public class EmergencyCentreInfo implements Serializable {
         this.centre_pic = centre_pic;
     }
 
-    public String getCentreID() {
-        return centreID;
+    public String getEmergency_Center_Id() {
+        return Emergency_Center_Id;
     }
 
-    public void setCentreID(String centreID) {
-        this.centreID = centreID;
+    public void setEmergency_Center_Id(String emergency_Center_Id) {
+        Emergency_Center_Id = emergency_Center_Id;
     }
 
-    public String getCentreName() {
-        return centreName;
+    public String getEmergency_Center_Name() {
+        return Emergency_Center_Name;
     }
 
-    public void setCentreName(String centreName) {
-        this.centreName = centreName;
+    public void setEmergency_Center_Name(String emergency_Center_Name) {
+        Emergency_Center_Name = emergency_Center_Name;
     }
 
-    public String getCentreContact() {
-        return centreContact;
+    public String getEmergency_Center_Contact() {
+        return Emergency_Center_Contact;
     }
 
-    public void setCentreContact(String centreContact) {
-        this.centreContact = centreContact;
+    public void setEmergency_Center_Contact(String emergency_Center_Contact) {
+        Emergency_Center_Contact = emergency_Center_Contact;
+    }
+
+    public String getEmergency_Center_Type() {
+        return Emergency_Center_Type;
+    }
+
+    public void setEmergency_Center_Type(String emergency_Center_Type) {
+        Emergency_Center_Type = emergency_Center_Type;
+    }
+
+    public String getEmergency_Center_Publisher_Id() {
+        return Emergency_Center_Publisher_Id;
+    }
+
+    public void setEmergency_Center_Publisher_Id(String emergency_Center_Publisher_Id) {
+        Emergency_Center_Publisher_Id = emergency_Center_Publisher_Id;
     }
 
     public String getLatitude() {
@@ -69,19 +87,26 @@ public class EmergencyCentreInfo implements Serializable {
         this.longitude = longitude;
     }
 
-    public String getCentreType() {
-        return centreType;
+    @Override
+    public String toString() {
+        StringBuilder dataBuilder = new StringBuilder();
+        appendFieldValue(dataBuilder, centre_pic);
+        appendFieldValue(dataBuilder, Emergency_Center_Id);
+        appendFieldValue(dataBuilder, Emergency_Center_Name);
+        appendFieldValue(dataBuilder, Emergency_Center_Contact);
+        appendFieldValue(dataBuilder, Emergency_Center_Type);
+        appendFieldValue(dataBuilder, Emergency_Center_Publisher_Id);
+        appendFieldValue(dataBuilder, latitude);
+        appendFieldValue(dataBuilder, longitude);
+
+        return dataBuilder.toString();
     }
 
-    public void setCentreType(String centreType) {
-        this.centreType = centreType;
-    }
-
-    public String getPublisher_id() {
-        return publisher_id;
-    }
-
-    public void setPublisher_id(String publisher_id) {
-        this.publisher_id = publisher_id;
+    private void appendFieldValue(StringBuilder dataBuilder, String fieldValue) {
+        if(fieldValue != null) {
+            dataBuilder.append(fieldValue).append(",");
+        } else {
+            dataBuilder.append("").append(",");
+        }
     }
 }

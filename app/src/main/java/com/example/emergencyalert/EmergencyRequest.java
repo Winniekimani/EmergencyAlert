@@ -4,59 +4,76 @@ import java.io.Serializable;
 
 public class EmergencyRequest implements Serializable {
 
-    String request_id, requester_userId, emergency_centreID, emergency_typeID, status,dateStr;
+    public String emergency_request_id, emergency_request_user_id , emergency_request_emergency_centre_id, emergency_request_emergency_type_id , emergency_request_status;
 
     public EmergencyRequest() {
     }
 
-    public EmergencyRequest(String request_id, String requester_userId, String emergency_centreID, String emergency_typeID, String status) {
-        this.request_id = request_id;
-        this.requester_userId = requester_userId;
-        this.emergency_centreID = emergency_centreID;
-        this.emergency_typeID = emergency_typeID;
-        this.status = status;
-
+    public EmergencyRequest(String emergency_request_id, String emergency_request_user_id, String emergency_request_emergency_centre_id, String emergency_request_emergency_type_id, String emergency_request_status) {
+        this.emergency_request_id = emergency_request_id;
+        this.emergency_request_user_id = emergency_request_user_id;
+        this.emergency_request_emergency_centre_id = emergency_request_emergency_centre_id;
+        this.emergency_request_emergency_type_id = emergency_request_emergency_type_id;
+        this.emergency_request_status = emergency_request_status;
     }
 
-    public String getRequest_id() {
-        return request_id;
+    public String getEmergency_request_id() {
+        return emergency_request_id;
     }
 
-    public void setRequest_id(String request_id) {
-        this.request_id = request_id;
+    public void setEmergency_request_id(String emergency_request_id) {
+        this.emergency_request_id = emergency_request_id;
     }
 
-    public String getRequester_userId() {
-        return requester_userId;
+    public String getEmergency_request_user_id() {
+        return emergency_request_user_id;
     }
 
-    public void setRequester_userId(String requester_userId) {
-        this.requester_userId = requester_userId;
+    public void setEmergency_request_user_id(String emergency_request_user_id) {
+        this.emergency_request_user_id = emergency_request_user_id;
     }
 
-    public String getEmergency_centreID() {
-        return emergency_centreID;
+    public String getEmergency_request_emergency_centre_id() {
+        return emergency_request_emergency_centre_id;
     }
 
-    public void setEmergency_centreID(String emergency_centreID) {
-        this.emergency_centreID = emergency_centreID;
+    public void setEmergency_request_emergency_centre_id(String emergency_request_emergency_centre_id) {
+        this.emergency_request_emergency_centre_id = emergency_request_emergency_centre_id;
     }
 
-    public String getEmergency_typeID() {
-        return emergency_typeID;
+    public String getEmergency_request_emergency_type_id() {
+        return emergency_request_emergency_type_id;
     }
 
-    public void setEmergency_typeID(String emergency_typeID) {
-        this.emergency_typeID = emergency_typeID;
+    public void setEmergency_request_emergency_type_id(String emergency_request_emergency_type_id) {
+        this.emergency_request_emergency_type_id = emergency_request_emergency_type_id;
     }
 
-    public String getStatus() {
-        return status;
+    public String getEmergency_request_status() {
+        return emergency_request_status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setEmergency_request_status(String emergency_request_status) {
+        this.emergency_request_status = emergency_request_status;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder dataBuilder = new StringBuilder();
+        appendFieldValue(dataBuilder, emergency_request_id);
+        appendFieldValue(dataBuilder, emergency_request_user_id);
+        appendFieldValue(dataBuilder, emergency_request_emergency_centre_id);
+        appendFieldValue(dataBuilder, emergency_request_emergency_type_id);
+        appendFieldValue(dataBuilder, emergency_request_status);
 
+        return dataBuilder.toString();
+    }
+
+    private void appendFieldValue(StringBuilder dataBuilder, String fieldValue) {
+        if(fieldValue != null) {
+            dataBuilder.append(fieldValue).append(",");
+        } else {
+            dataBuilder.append("").append(",");
+        }
+    }
 }

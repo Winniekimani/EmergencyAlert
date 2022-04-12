@@ -18,12 +18,14 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.emergencyalert.Dash.DashboardProfileActivity;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.common.hash.Hashing;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -33,7 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextInputEditText edt_username, edt_email, edt_password, edt_password_confirm;
+    private TextInputEditText edt_username, edt_email, edt_password, edt_password_confirm, edt_phone;
     String dialogContent2;
     private SweetAlertDialog sweetAlertDialog;
     private CircleImageView img_userDp;
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         edt_password_confirm = findViewById(R.id.edt_password_confirm);
         txt_photo_error = findViewById(R.id.txt_photo_error);
         img_userDp = findViewById(R.id.img_userDp);
+        edt_phone = findViewById(R.id.edt_phone);
 
         findViewById(R.id.btn_signUp).setOnClickListener(view -> signUpUser());
         findViewById(R.id.btn_toLogIn).setOnClickListener(view -> backPress());
@@ -89,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(Objects.requireNonNull(edt_username.getText()).toString()))
             edt_username.setError(this.getString(R.string.input_error));
         else if (TextUtils.isEmpty(Objects.requireNonNull(edt_email.getText()).toString()))
+            edt_email.setError(this.getString(R.string.input_error));
+        else if (TextUtils.isEmpty(Objects.requireNonNull(edt_phone.getText()).toString()))
             edt_email.setError(this.getString(R.string.input_error));
         else if (Objects.requireNonNull(edt_password.getText()).toString().length() < 6)
             edt_password.setError(this.getString(R.string.password_length_error));
@@ -111,27 +116,32 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("CREATE_UPDATES", "userID: " + userID);
                         User user = new User();
 
-                        user.setUsername(edt_username.getText().toString());
-                        user.setUserId(userID);
+                        user.setUser_Name(edt_username.getText().toString());
+                        user.setUser_Id(userID);
+                        user.setUser_Email(edt_email.getText().toString());
+                        user.setUser_Mobile(edt_phone.getText().toString());
                         user.setLongitude("0");
                         user.setLatitude("0");
-                        user.setContactList(new ArrayList<>());
+                        user.setUser_ContactList(new ArrayList<>());
 
                         FirebaseFirestore.getInstance().collection("Users")
                                 .document(userID).set(user)
                                 .addOnSuccessListener(runnable1 -> {
 
                                     HashMap<String, Object> login = new HashMap<>();
-                                    login.put("username", user.getUsername());
-                                    login.put("password", edt_password.getText().toString());
-                                    login.put("rank", "user");
+                                    login.put("Login_Username", user.getUser_Name());
+                                    login.put("Login_Password", Hashing.sha512().hashString( edt_password.getText().toString(), StandardCharsets.UTF_8).toString());
+                                    login.put("Login_Rank", "user");
 
                                     FirebaseFirestore.getInstance().collection("Login")
                                             .document(userID)
                                             .set(login)
-                                            .addOnSuccessListener(runnable2 -> setDP());
-
-
+                                            .addOnSuccessListener(unused -> {
+                                                FirebaseFirestore.getInstance().collection("Login")
+                                                        .document(userID)
+                                                        .update("Login_ID", userID);
+                                                setDP();
+                                            });
                                 })
                                 .addOnFailureListener(runnable2 -> nextActivity());
 

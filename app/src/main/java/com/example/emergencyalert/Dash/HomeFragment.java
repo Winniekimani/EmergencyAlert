@@ -29,10 +29,10 @@ public class HomeFragment extends Fragment {
 
 
         view.findViewById(R.id.btn_sos).setOnClickListener(view1 -> {
-            Log.d("Useradskj", String.valueOf(DashboardProfileActivity.currentUser.getContactList().get(0).getNumber()));
+            Log.d("Useradskj", String.valueOf(DashboardProfileActivity.currentUser.getUser_ContactList().get(0).getUser_Emergency_Contact_Mobile()));
 
-            for (int i = 0; i < DashboardProfileActivity.currentUser.getContactList().size(); i++){
-                sendSMS(getContext(), DashboardProfileActivity.currentUser.getContactList().get(i).getNumber(),"I'm in danger, SEND HELP I'm in " +
+            for (int i = 0; i < DashboardProfileActivity.currentUser.getUser_ContactList().size(); i++){
+                sendSMS(getContext(), DashboardProfileActivity.currentUser.getUser_ContactList().get(i).getUser_Emergency_Contact_Mobile(),"I'm in danger, SEND HELP I'm in " +
                         DashboardProfileActivity.locationToSend + "\n\n\n latitude : " +DashboardProfileActivity.currentUser.getLatitude() + "\n longitude : " +
                         DashboardProfileActivity.currentUser.getLongitude());
             }

@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.emergencyalert.Dash.DashboardProfileActivity;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.MessageFormat;
@@ -45,10 +47,17 @@ public class RelationshipsActivity extends AppCompatActivity {
 
     private void finishRegistration() {
         for (Contact contact: contactList) {
-            if (contact.getContact_id() == null || contact.getContact_id().isEmpty()){
+            if (contact.getUser_Emergency_Contact_Id() == null || contact.getUser_Emergency_Contact_Id().isEmpty()){
                 FirebaseFirestore.getInstance().collection("User_Emergency_Contact")
-                        .document()
-                        .set(contact);
+                        .add(contact)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                FirebaseFirestore.getInstance().collection("User_Emergency_Contact")
+                                        .document(documentReference.getId())
+                                        .update("user_Emergency_Contact_Id", documentReference.getId());
+                            }
+                        });
             }
         }
         startActivity(new Intent(RelationshipsActivity.this, DashboardProfileActivity.class));
@@ -65,9 +74,9 @@ public class RelationshipsActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull ContactAdapter.ContactViewHolder holder, int position) {
 
-            holder.name_txt.setText(MessageFormat.format("What is your relationship to {0}", contactList.get(position).getName()));
+            holder.name_txt.setText(MessageFormat.format("What is your relationship to {0}", contactList.get(position).getUser_Emergency_Contact_Name()));
             try {
-                holder.edt_rlship.setText(contactList.get(position).getRelationship());
+                holder.edt_rlship.setText(contactList.get(position).getUser_Emergency_Contact_User_Relationship());
             }catch (Exception e){
                 Log.d("ContactException", e.getLocalizedMessage());
             }
@@ -82,7 +91,7 @@ public class RelationshipsActivity extends AppCompatActivity {
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    contactList.get(pos).setRelationship(Objects.requireNonNull(holder.edt_rlship.getText()).toString());
+                    contactList.get(pos).setUser_Emergency_Contact_User_Relationship(Objects.requireNonNull(holder.edt_rlship.getText()).toString());
                 }
 
                 @Override

@@ -8,13 +8,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -48,12 +48,10 @@ public class SendEmeregencyRequestActivity extends AppCompatActivity {
 
 
         Picasso.get().load(emergencyCentreInfo.getCentre_pic()).into(centrePic);
-        centre_name.setText(emergencyCentreInfo.getCentreName());
-        centre_number.setText(emergencyCentreInfo.getCentreContact());
+        centre_name.setText(emergencyCentreInfo.getEmergency_Center_Name());
+        centre_number.setText(emergencyCentreInfo.getEmergency_Center_Contact());
 
         btn_sendRequest.setOnClickListener(view -> sendRequest());
-
-
 
     }
 
@@ -70,42 +68,48 @@ public class SendEmeregencyRequestActivity extends AppCompatActivity {
             sweetAlertDialog.show();
 
             EmergencyType emergencyType = new EmergencyType();
-            emergencyType.setEmergencyTypeName(edt_emg_type.getText().toString().trim());
-            emergencyType.setEmergencyTypeDescription(edt_emg_description.getText().toString().trim());
+            emergencyType.setEmergency_Type_Name(edt_emg_type.getText().toString().trim());
+            emergencyType.setEmergency_Type_Description(edt_emg_description.getText().toString().trim());
 
 
             FirebaseFirestore.getInstance().collection("Emergency_Type")
                     .add(emergencyType)
                     .addOnSuccessListener(documentReference -> {
 
+                        FirebaseFirestore.getInstance().collection("Emergency_Type")
+                                .document(documentReference.getId())
+                                .update("emergency_Type_ID", documentReference.getId());
 
-                        emergencyRequest.setEmergency_typeID(documentReference.getId());
-                        emergencyRequest.setEmergency_centreID(emergencyCentreInfo.getCentreID());
-                        emergencyRequest.setRequester_userId(currentUser.getUserId());
-                        emergencyRequest.setStatus("pending");
+
+
+                        emergencyRequest.setEmergency_request_emergency_type_id(documentReference.getId());
+                        emergencyRequest.setEmergency_request_emergency_centre_id(emergencyCentreInfo.getEmergency_Center_Id());
+                        emergencyRequest.setEmergency_request_user_id(currentUser.getUser_Id());
+                        emergencyRequest.setEmergency_request_status("pending");
 
 
                         FirebaseFirestore.getInstance().collection("Emergency_Request")
                                 .add(emergencyRequest)
                                 .addOnSuccessListener(documentReference1 -> {
-                                    Toast.makeText(SendEmeregencyRequestActivity.this, "Request sent, wait", Toast.LENGTH_LONG).show();
-
 
                                     FirebaseFirestore.getInstance().collection("Emergency_Request")
                                             .document(documentReference1.getId())
-                                            .update("time", Timestamp.now())
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void unused) {
-                                                    sweetAlertDialog.dismissWithAnimation();
-                                                    SendEmeregencyRequestActivity.super.onBackPressed();
-                                                }
+                                            .update("emergency_request_id", documentReference1.getId());
+
+                                    Toast.makeText(SendEmeregencyRequestActivity.this, "Request sent, wait", Toast.LENGTH_LONG).show();
+
+                                    HashMap<String, Object> hashMap = new HashMap<>();
+                                    hashMap.put("time", Timestamp.now());
+                                    hashMap.put("emergency_request_id", documentReference1.getId());
+
+                                    FirebaseFirestore.getInstance().collection("Emergency_Request")
+                                            .document(documentReference1.getId())
+                                            .update(hashMap)
+                                            .addOnSuccessListener(unused -> {
+                                                sweetAlertDialog.dismissWithAnimation();
+                                                SendEmeregencyRequestActivity.super.onBackPressed();
                                             });
-
-
                                 });
-
-
                     });
 
         }

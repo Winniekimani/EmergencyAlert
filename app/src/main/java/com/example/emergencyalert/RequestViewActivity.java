@@ -6,8 +6,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
 
 public class RequestViewActivity extends AppCompatActivity {
 
@@ -34,9 +37,9 @@ public class RequestViewActivity extends AppCompatActivity {
         centre_name.setText(getIntent().getExtras().getString("name"));
         emergency_type.setText(getIntent().getExtras().getString("type"));
         txt_emergency_des.setText(getIntent().getExtras().getString("description"));
-        txt_status.setText(emergencyRequest.getStatus());
+        txt_status.setText(emergencyRequest.getEmergency_request_status());
 
-        if (emergencyRequest.getStatus().equals("Served")){
+        if (emergencyRequest.getEmergency_request_status().equals("Served")){
             findViewById(R.id.btn_status).setEnabled(false);
         }
 
@@ -46,9 +49,23 @@ public class RequestViewActivity extends AppCompatActivity {
                 txt_status.setText("Served");
 
                 FirebaseFirestore.getInstance().collection("Emergency_Request")
-                        .document(emergencyRequest.getRequest_id())
-                        .update("status", "Served")
-                        .addOnSuccessListener(RequestViewActivity.this, unused -> RequestViewActivity.super.onBackPressed());
+                        .document(emergencyRequest.getEmergency_request_id())
+                        .update("emergency_request_status", "Served")
+                        .addOnSuccessListener(RequestViewActivity.this, unused -> {
+
+                            HashMap<String, Object> recordHash = new HashMap<>();
+                            recordHash.put("Emergency_Request_Recorded_Emergency_Request_Id", emergencyRequest.getEmergency_request_id());
+                            recordHash.put("Emergency_Request_recorded_Date_Time", Timestamp.now());
+
+
+                            FirebaseFirestore.getInstance().collection("Emergency_Request_Recorded")
+                                    .add(recordHash)
+                                    .addOnSuccessListener(documentReference -> FirebaseFirestore.getInstance().collection("Emergency_Request_Recorded")
+                                            .document(documentReference.getId())
+                                            .update("Emergency_Request_Recorded_Id", documentReference.getId()));
+
+                            RequestViewActivity.super.onBackPressed();
+                        });
         });
 
 

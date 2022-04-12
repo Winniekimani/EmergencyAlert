@@ -11,6 +11,7 @@
         android:padding="10dp"
         android:orientation="vertical">
 
+
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,6 +47,17 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/black"
             android:textSize="16sp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_removeCentre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:backgroundTint="#ff0000"
+            android:text="Remove Centre"
+            android:textAllCaps="false"
+            android:textSize="10sp"
+            app:cornerRadius="20dp"/>
 
 
     </LinearLayout>

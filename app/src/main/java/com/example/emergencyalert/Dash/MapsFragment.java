@@ -77,7 +77,7 @@ public class MapsFragment extends Fragment {
 
             for (EmergencyCentreInfo emergencyCentreInfo : emergencyCentreInfoList){
                 LatLng centreLocation = new LatLng(Float.parseFloat(emergencyCentreInfo.getLatitude()), Float.parseFloat(emergencyCentreInfo.getLongitude()));
-                my_googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(centreLocation).title(emergencyCentreInfo.getCentreName()));
+                my_googleMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).position(centreLocation).title(emergencyCentreInfo.getEmergency_Center_Name()));
             }
         }
 
@@ -107,17 +107,17 @@ public class MapsFragment extends Fragment {
             switch (checkedId){
                 case R.id.chip_hospitals:
                     query = FirebaseFirestore.getInstance().collection("Emergency_Centers_info")
-                            .whereEqualTo("centreType", "hospital");
+                            .whereEqualTo("emergency_Center_Type", "hospital");
                     getCentres(query);
                     break;
                 case R.id.chip_police:
                     query = FirebaseFirestore.getInstance().collection("Emergency_Centers_info")
-                            .whereEqualTo("centreType", "police");
+                            .whereEqualTo("emergency_Center_Type", "police");
                     getCentres(query);
                     break;
                 case R.id.chip_fire:
                     query = FirebaseFirestore.getInstance().collection("Emergency_Centers_info")
-                            .whereEqualTo("centreType", "fire");
+                            .whereEqualTo("emergency_Center_Type", "fire");
                     getCentres(query);
                     break;
             }
@@ -135,7 +135,7 @@ public class MapsFragment extends Fragment {
                         for (DocumentSnapshot documentSnapshot : value.getDocuments()){
                             EmergencyCentreInfo emergencyCentreInfo = documentSnapshot.toObject(EmergencyCentreInfo.class);
                             if (emergencyCentreInfo != null)
-                            emergencyCentreInfo.setCentreID(documentSnapshot.getId());
+                            emergencyCentreInfo.setEmergency_Center_Id(documentSnapshot.getId());
                             emergencyCentreInfoList.add(emergencyCentreInfo);
 
                         }
@@ -170,8 +170,8 @@ public class MapsFragment extends Fragment {
         public void onBindViewHolder(@NonNull EmergencyCentreAdapter.CentreViewHolder holder, int position) {
 
             Picasso.get().load(emergencyCentreInfoList.get(position).getCentre_pic()).into(holder.centrePic);
-            holder.centre_name.setText(emergencyCentreInfoList.get(position).getCentreName());
-            holder.centre_contact.setText(MessageFormat.format("Phone : {0}", emergencyCentreInfoList.get(position).getCentreContact()));
+            holder.centre_name.setText(emergencyCentreInfoList.get(position).getEmergency_Center_Name());
+            holder.centre_contact.setText(MessageFormat.format("Phone : {0}", emergencyCentreInfoList.get(position).getEmergency_Center_Contact()));
 
             holder.btn_sendRequest.setOnClickListener(view -> {
                 Intent intent = new Intent(getContext(), SendEmeregencyRequestActivity.class);

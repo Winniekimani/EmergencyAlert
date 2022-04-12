@@ -1,38 +1,38 @@
 package com.example.emergencyalert;
 
 public class EmergencyType {
-    String emergencyTypeID, emergencyTypeName, emergencyTypeDescription;
+    String Emergency_Type_ID, Emergency_Type_Name, Emergency_Type_Description;
 
     public EmergencyType() {
     }
 
-    public EmergencyType(String emergencyTypeID, String emergencyTypeName, String emergencyTypeDescription) {
-        this.emergencyTypeID = emergencyTypeID;
-        this.emergencyTypeName = emergencyTypeName;
-        this.emergencyTypeDescription = emergencyTypeDescription;
+    public EmergencyType(String emergency_Type_ID, String emergency_Type_Name, String emergency_Type_Description) {
+        Emergency_Type_ID = emergency_Type_ID;
+        Emergency_Type_Name = emergency_Type_Name;
+        Emergency_Type_Description = emergency_Type_Description;
     }
 
-    public String getEmergencyTypeID() {
-        return emergencyTypeID;
+    public String getEmergency_Type_ID() {
+        return Emergency_Type_ID;
     }
 
-    public void setEmergencyTypeID(String emergencyTypeID) {
-        this.emergencyTypeID = emergencyTypeID;
+    public void setEmergency_Type_ID(String emergency_Type_ID) {
+        Emergency_Type_ID = emergency_Type_ID;
     }
 
-    public String getEmergencyTypeName() {
-        return emergencyTypeName;
+    public String getEmergency_Type_Name() {
+        return Emergency_Type_Name;
     }
 
-    public void setEmergencyTypeName(String emergencyTypeName) {
-        this.emergencyTypeName = emergencyTypeName;
+    public void setEmergency_Type_Name(String emergency_Type_Name) {
+        Emergency_Type_Name = emergency_Type_Name;
     }
 
-    public String getEmergencyTypeDescription() {
-        return emergencyTypeDescription;
+    public String getEmergency_Type_Description() {
+        return Emergency_Type_Description;
     }
 
-    public void setEmergencyTypeDescription(String emergencyTypeDescription) {
-        this.emergencyTypeDescription = emergencyTypeDescription;
+    public void setEmergency_Type_Description(String emergency_Type_Description) {
+        Emergency_Type_Description = emergency_Type_Description;
     }
 }

@@ -89,9 +89,9 @@ public class AddContactActivity extends AppCompatActivity {
 
                     Log.i("CONTACT_PROVIDER_DEMO", "Contact name ::: " + contactName + "            PHONE ::: " + number);
                     Contact contact = new Contact();
-                    contact.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    contact.setName(contactName);
-                    contact.setNumber(number);
+                    contact.setUser_Emergency_Contact_User_Id(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    contact.setUser_Emergency_Contact_Name(contactName);
+                    contact.setUser_Emergency_Contact_Mobile(number);
 
                     contactList.add(contact);
 
@@ -116,9 +116,9 @@ public class AddContactActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull Adapter.ContactViewHolder holder, int position) {
 
-            holder.txt_name.setText(contactList.get(position).getName());
-            holder.txt_number.setText(contactList.get(position).getNumber());
-            contactList.get(position).setRelationship(contactList.get(position).getRelationship());
+            holder.txt_name.setText(contactList.get(position).getUser_Emergency_Contact_Name());
+            holder.txt_number.setText(contactList.get(position).getUser_Emergency_Contact_Mobile());
+            contactList.get(position).setUser_Emergency_Contact_User_Relationship(contactList.get(position).getUser_Emergency_Contact_User_Relationship());
 
             holder.itemView.setOnClickListener(view -> {
                 if (selected_contactList.size() < 5){
@@ -161,8 +161,8 @@ public class AddContactActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull SelectedAdapter.ContactSelectedViewHolder holder, int position) {
 
-            holder.txt_name.setText(selected_contactList.get(position).getName());
-            holder.txt_number.setText(selected_contactList.get(position).getNumber());
+            holder.txt_name.setText(selected_contactList.get(position).getUser_Emergency_Contact_Name());
+            holder.txt_number.setText(selected_contactList.get(position).getUser_Emergency_Contact_Mobile());
             holder.remove.setOnClickListener(view -> {
                 //Remove the contact
                 contactList.add(selected_contactList.get(position));
@@ -179,7 +179,7 @@ public class AddContactActivity extends AppCompatActivity {
                     sweetAlertDialog.show();
 
                     FirebaseFirestore.getInstance().collection("User_Emergency_Contact")
-                            .document(selected_contactList.get(position).getContact_id())
+                            .document(selected_contactList.get(position).getUser_Emergency_Contact_Id())
                             .delete()
                             .addOnSuccessListener(unused -> sweetAlertDialog.dismissWithAnimation());
 

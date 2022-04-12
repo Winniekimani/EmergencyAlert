@@ -4,56 +4,56 @@ import java.io.Serializable;
 
 public class Contact implements Serializable {
 
-    String contact_id, user_id, name, number, relationship;
+    String User_Emergency_Contact_Id, User_Emergency_Contact_User_Id, User_Emergency_Contact_Name, User_Emergency_Contact_Mobile, User_Emergency_Contact_User_Relationship ;
 
     public Contact() {
     }
 
-    public Contact(String contact_id, String user_id, String name, String number, String relationship) {
-        this.contact_id = contact_id;
-        this.user_id = user_id;
-        this.name = name;
-        this.number = number;
-        this.relationship = relationship;
+    public Contact(String user_Emergency_Contact_Id, String user_Emergency_Contact_User_Id, String user_Emergency_Contact_Name, String user_Emergency_Contact_Mobile, String user_Emergency_Contact_User_Relationship) {
+        User_Emergency_Contact_Id = user_Emergency_Contact_Id;
+        User_Emergency_Contact_User_Id = user_Emergency_Contact_User_Id;
+        User_Emergency_Contact_Name = user_Emergency_Contact_Name;
+        User_Emergency_Contact_Mobile = user_Emergency_Contact_Mobile;
+        User_Emergency_Contact_User_Relationship = user_Emergency_Contact_User_Relationship;
     }
 
-    public String getContact_id() {
-        return contact_id;
+    public String getUser_Emergency_Contact_Id() {
+        return User_Emergency_Contact_Id;
     }
 
-    public void setContact_id(String contact_id) {
-        this.contact_id = contact_id;
+    public void setUser_Emergency_Contact_Id(String user_Emergency_Contact_Id) {
+        User_Emergency_Contact_Id = user_Emergency_Contact_Id;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getUser_Emergency_Contact_User_Id() {
+        return User_Emergency_Contact_User_Id;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUser_Emergency_Contact_User_Id(String user_Emergency_Contact_User_Id) {
+        User_Emergency_Contact_User_Id = user_Emergency_Contact_User_Id;
     }
 
-    public String getName() {
-        return name;
+    public String getUser_Emergency_Contact_Name() {
+        return User_Emergency_Contact_Name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUser_Emergency_Contact_Name(String user_Emergency_Contact_Name) {
+        User_Emergency_Contact_Name = user_Emergency_Contact_Name;
     }
 
-    public String getNumber() {
-        return number;
+    public String getUser_Emergency_Contact_Mobile() {
+        return User_Emergency_Contact_Mobile;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setUser_Emergency_Contact_Mobile(String user_Emergency_Contact_Mobile) {
+        User_Emergency_Contact_Mobile = user_Emergency_Contact_Mobile;
     }
 
-    public String getRelationship() {
-        return relationship;
+    public String getUser_Emergency_Contact_User_Relationship() {
+        return User_Emergency_Contact_User_Relationship;
     }
 
-    public void setRelationship(String relationship) {
-        this.relationship = relationship;
+    public void setUser_Emergency_Contact_User_Relationship(String user_Emergency_Contact_User_Relationship) {
+        User_Emergency_Contact_User_Relationship = user_Emergency_Contact_User_Relationship;
     }
 }

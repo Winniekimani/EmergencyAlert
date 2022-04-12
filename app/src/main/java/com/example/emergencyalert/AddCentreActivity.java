@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.emergencyalert.Dash.DashboardProfileActivity;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,6 +23,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -32,15 +34,15 @@ public class AddCentreActivity extends AppCompatActivity {
     EmergencyCentreInfo emergencyCentreInfo;
     private SweetAlertDialog sweetAlertDialog;
     private Uri image_uri;
-    ImageView centrePic;
+    ImageView centrePic;;
     TextInputEditText edt_centreName, edt_centrePhone;
     private ActivityResultLauncher<Intent> intentActivityResultLauncher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_centre);
-
         edt_centreName = findViewById(R.id.edt_centreName);
         edt_centrePhone = findViewById(R.id.edt_centrePhone);
         centrePic = findViewById(R.id.centrePic);
@@ -59,13 +61,7 @@ public class AddCentreActivity extends AppCompatActivity {
         centrePic.setOnClickListener(view -> openGallery());
 
         currentUser = (User) getIntent().getExtras().getSerializable("currentUser");
-        emergencyCentreInfo = new EmergencyCentreInfo();
-
-        findViewById(R.id.btn_addCentre).setOnClickListener(view -> addCentre(currentUser.getUserId()));
-
-
     }
-
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -85,15 +81,36 @@ public class AddCentreActivity extends AppCompatActivity {
             sweetAlertDialog.setContentText("Creating your centre");
             sweetAlertDialog.show();
 
-            emergencyCentreInfo.setCentreName(edt_centreName.getText().toString().trim());
-            emergencyCentreInfo.setCentreContact(edt_centrePhone.getText().toString().trim());
+            emergencyCentreInfo.setEmergency_Center_Name(edt_centreName.getText().toString().trim());
+            emergencyCentreInfo.setEmergency_Center_Contact(edt_centrePhone.getText().toString().trim());
             emergencyCentreInfo.setLatitude(DashboardProfileActivity.currentUser.getLatitude());
             emergencyCentreInfo.setLongitude(DashboardProfileActivity.currentUser.getLongitude());
-            emergencyCentreInfo.setPublisher_id(userId);
+            emergencyCentreInfo.setEmergency_Center_Publisher_Id(userId);
 
             FirebaseFirestore.getInstance().collection("Emergency_Centers_info")
                     .add(emergencyCentreInfo)
-                    .addOnSuccessListener(documentReference -> setPhoto(documentReference.getId()));
+                    .addOnSuccessListener(documentReference -> {
+
+                        FirebaseFirestore.getInstance().collection("Emergency_Centers_info")
+                                .document(documentReference.getId())
+                                .update("emergency_Center_Id", documentReference.getId());
+
+                        HashMap<String, Object> adminHash = new HashMap<>();
+                        adminHash.put("Admin_Id", currentUser.getUser_Id());
+                        adminHash.put("Admin_Name", currentUser.getUser_Name());
+                        adminHash.put("Admin_Email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+
+                        FirebaseFirestore.getInstance().collection("Admin")
+                                .document(currentUser.getUser_Id())
+                                .set(adminHash)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        setPhoto(documentReference.getId());
+                                    }
+                                });
+
+                    });
         }
     }
 
@@ -130,17 +147,17 @@ public class AddCentreActivity extends AppCompatActivity {
         switch(view.getId()) {
             case R.id.checkbox_hospital:
                 if (checked)
-                emergencyCentreInfo.setCentreType("hospital");
+                emergencyCentreInfo.setEmergency_Center_Type("hospital");
                 break;
 
             case R.id.checkbox_police:
                 if (checked)
-                    emergencyCentreInfo.setCentreType("police");
+                    emergencyCentreInfo.setEmergency_Center_Type("police");
 
                 break;
             case R.id.checkbox_fire:
                 if (checked)
-                    emergencyCentreInfo.setCentreType("fire");
+                    emergencyCentreInfo.setEmergency_Center_Type("fire");
                 break;
         }
     }

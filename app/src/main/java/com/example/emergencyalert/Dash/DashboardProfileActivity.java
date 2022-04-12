@@ -71,15 +71,15 @@ public class DashboardProfileActivity extends AppCompatActivity {
                         currentUser = value.toObject(User.class);
 
                         FirebaseFirestore.getInstance().collection("User_Emergency_Contact")
-                                .whereEqualTo("user_id", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .whereEqualTo("user_Emergency_Contact_User_Id", FirebaseAuth.getInstance().getCurrentUser().getUid())
                                 .addSnapshotListener((value1, error1) -> {
                                     if (error1 == null && value1 != null){
                                         List<Contact> contactList = new ArrayList<>();
                                         for (DocumentSnapshot contactSnap: value1.getDocuments()) {
                                             Contact contact = contactSnap.toObject(Contact.class);
-                                            contact.setContact_id(contactSnap.getId());
+                                            contact.setUser_Emergency_Contact_Id(contactSnap.getId());
                                             contactList.add(contact);
-                                            currentUser.setContactList(contactList);
+                                            currentUser.setUser_ContactList(contactList);
                                         }
                                     }
 

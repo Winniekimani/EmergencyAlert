@@ -44,10 +44,10 @@ public class AccountFragment extends Fragment {
             @Override
             public void run() {
 
-                if (DashboardProfileActivity.currentUser.getContactList() != null){
-                    txt_num.setText(MessageFormat.format("Contacts : {0}", DashboardProfileActivity.currentUser.getContactList().size()));
+                if (DashboardProfileActivity.currentUser.getUser_ContactList() != null){
+                    txt_num.setText(MessageFormat.format("Contacts : {0}", DashboardProfileActivity.currentUser.getUser_ContactList().size()));
                     Picasso.get().load(DashboardProfileActivity.currentUser.getUser_profile_pic()).into(img_userDp);
-                    username.setText(DashboardProfileActivity.currentUser.getUsername());
+                    username.setText(DashboardProfileActivity.currentUser.getUser_Name());
                 }
             }
         }, 1000);
@@ -63,7 +63,7 @@ public class AccountFragment extends Fragment {
 
         txt_num.setOnClickListener(view1 -> {
             Intent intent = new Intent(getContext(), AddContactActivity.class);
-            intent.putExtra("selected_contacts", (Serializable) DashboardProfileActivity.currentUser.getContactList());
+            intent.putExtra("selected_contacts", (Serializable) DashboardProfileActivity.currentUser.getUser_ContactList());
             intent.putExtra("FROM", "account");
             startActivity(intent);
         });

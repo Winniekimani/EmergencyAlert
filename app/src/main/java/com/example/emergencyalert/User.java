@@ -4,44 +4,54 @@ import java.io.Serializable;
 import java.util.List;
 
 public class User implements Serializable {
-    String username, userId, phone, user_profile_pic, latitude, longitude;
-    List<Contact> contactList;
+
+    String User_Name, User_Id, User_Mobile, User_Email, user_profile_pic, latitude, longitude;
+    List<Contact> User_ContactList;
 
     public User() {
     }
 
-    public User(String username, String userId, String phone, String user_profile_pic, String latitude, String longitude, List<Contact> contactList) {
-        this.username = username;
-        this.userId = userId;
-        this.phone = phone;
+    public User(String user_Name, String user_Id, String user_Mobile, String user_Email, String user_profile_pic, String latitude, String longitude, List<Contact> user_ContactList) {
+        User_Name = user_Name;
+        User_Id = user_Id;
+        User_Mobile = user_Mobile;
+        User_Email = user_Email;
         this.user_profile_pic = user_profile_pic;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.contactList = contactList;
+        User_ContactList = user_ContactList;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUser_Name() {
+        return User_Name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser_Name(String user_Name) {
+        User_Name = user_Name;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUser_Id() {
+        return User_Id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUser_Id(String user_Id) {
+        User_Id = user_Id;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getUser_Mobile() {
+        return User_Mobile;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setUser_Mobile(String user_Mobile) {
+        User_Mobile = user_Mobile;
+    }
+
+    public String getUser_Email() {
+        return User_Email;
+    }
+
+    public void setUser_Email(String user_Email) {
+        User_Email = user_Email;
     }
 
     public String getUser_profile_pic() {
@@ -68,11 +78,11 @@ public class User implements Serializable {
         this.longitude = longitude;
     }
 
-    public List<Contact> getContactList() {
-        return contactList;
+    public List<Contact> getUser_ContactList() {
+        return User_ContactList;
     }
 
-    public void setContactList(List<Contact> contactList) {
-        this.contactList = contactList;
+    public void setUser_ContactList(List<Contact> user_ContactList) {
+        User_ContactList = user_ContactList;
     }
 }
