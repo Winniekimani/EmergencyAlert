@@ -34,9 +34,10 @@ public class AddCentreActivity extends AppCompatActivity {
     EmergencyCentreInfo emergencyCentreInfo;
     private SweetAlertDialog sweetAlertDialog;
     private Uri image_uri;
-    ImageView centrePic;;
+    ImageView centrePic;
     TextInputEditText edt_centreName, edt_centrePhone;
     private ActivityResultLauncher<Intent> intentActivityResultLauncher;
+    CheckBox hos, pos, fire;
 
 
     @Override
@@ -45,7 +46,18 @@ public class AddCentreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_centre);
         edt_centreName = findViewById(R.id.edt_centreName);
         edt_centrePhone = findViewById(R.id.edt_centrePhone);
+        emergencyCentreInfo = new EmergencyCentreInfo();
         centrePic = findViewById(R.id.centrePic);
+        hos = findViewById(R.id.checkbox_hospital);
+        pos = findViewById(R.id.checkbox_police);
+        fire = findViewById(R.id.checkbox_fire);
+        currentUser = (User) getIntent().getExtras().getSerializable("currentUser");
+
+        findViewById(R.id.btn_addCentre).setOnClickListener(view -> addCentre(currentUser.getUser_Id()));
+
+        hos.setOnClickListener(this::onCheckboxClicked);
+        pos.setOnClickListener(this::onCheckboxClicked);
+        fire.setOnClickListener(this::onCheckboxClicked);
 
         Log.d("ertdryfgvubhknjl", DashboardProfileActivity.currentUser.getLatitude());
 
@@ -60,7 +72,7 @@ public class AddCentreActivity extends AppCompatActivity {
 
         centrePic.setOnClickListener(view -> openGallery());
 
-        currentUser = (User) getIntent().getExtras().getSerializable("currentUser");
+
     }
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -146,18 +158,30 @@ public class AddCentreActivity extends AppCompatActivity {
         // Check which checkbox was clicked
         switch(view.getId()) {
             case R.id.checkbox_hospital:
-                if (checked)
-                emergencyCentreInfo.setEmergency_Center_Type("hospital");
+                if (checked){
+                    pos.setChecked(false);
+                    fire.setChecked(false);
+                    emergencyCentreInfo.setEmergency_Center_Type("hospital");
+                }
+
                 break;
 
             case R.id.checkbox_police:
-                if (checked)
+                if (checked){
+                    hos.setChecked(false);
+                    fire.setChecked(false);
                     emergencyCentreInfo.setEmergency_Center_Type("police");
+                }
 
                 break;
             case R.id.checkbox_fire:
-                if (checked)
+                if (checked) {
+                    pos.setChecked(false);
+                    hos.setChecked(false);
                     emergencyCentreInfo.setEmergency_Center_Type("fire");
+                }
+
+
                 break;
         }
     }

@@ -262,31 +262,35 @@ public class DashboardProfileActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("MissingPermission")
     public void getLocation() {
         Log.d("jdhakscnxsja", "Method called");
-        fusedLocationClient.getLastLocation().addOnCompleteListener(task -> {
+        fusedLocationClient.getLastLocation()
+               .addOnCompleteListener(task -> {
             Location location = task.getResult();
-            try {
-                Geocoder geocoder = new Geocoder(DashboardProfileActivity.this, Locale.getDefault());
-                 List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                currentUser.setLatitude(String.valueOf(addresses.get(0).getLatitude()));
-                currentUser.setLongitude(String.valueOf(addresses.get(0).getLongitude()));
-                locationToSend = addresses.get(0).getLocality();
+            if (location != null){
+                try {
+                    Geocoder geocoder = new Geocoder(DashboardProfileActivity.this, Locale.getDefault());
+                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                    currentUser.setLatitude(String.valueOf(addresses.get(0).getLatitude()));
+                    currentUser.setLongitude(String.valueOf(addresses.get(0).getLongitude()));
+                    locationToSend = addresses.get(0).getLocality();
 
-                Log.d("jdhakscnxsja", currentUser.getLatitude());
-                Log.d("longitude", currentUser.getLongitude());
+                    Log.d("jdhakscnxsja", currentUser.getLatitude());
+                    Log.d("longitude", currentUser.getLongitude());
 
-                HashMap<String, Object> locationMap = new HashMap<>();
-                locationMap.put("latitude", String.valueOf(addresses.get(0).getLatitude()));
-                locationMap.put("longitude", String.valueOf(addresses.get(0).getLongitude()));
+                    HashMap<String, Object> locationMap = new HashMap<>();
+                    locationMap.put("latitude", String.valueOf(addresses.get(0).getLatitude()));
+                    locationMap.put("longitude", String.valueOf(addresses.get(0).getLongitude()));
 
-                FirebaseFirestore.getInstance().collection("Users")
-                        .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .update(locationMap);
+                    FirebaseFirestore.getInstance().collection("Users")
+                            .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .update(locationMap);
 
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }).addOnFailureListener(e -> Toast.makeText(DashboardProfileActivity.this, "Could not get your location", Toast.LENGTH_SHORT).show());
     }

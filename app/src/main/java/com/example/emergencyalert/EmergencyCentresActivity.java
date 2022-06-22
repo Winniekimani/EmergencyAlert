@@ -65,8 +65,10 @@ public class EmergencyCentresActivity extends AppCompatActivity {
                     if (error == null && value != null){
                         if (value.isEmpty()){
                             findViewById(R.id.empty_centre).setVisibility(View.VISIBLE);
+
                         }
                         emergencyCentreInfoList.clear();
+                        findViewById(R.id.empty_centre).setVisibility(View.GONE);
                         for (DocumentSnapshot documentSnapshot : value.getDocuments()){
                             EmergencyCentreInfo emergencyCentreInfo = documentSnapshot.toObject(EmergencyCentreInfo.class);
                             emergencyCentreInfo.setEmergency_Center_Id(documentSnapshot.getId());
